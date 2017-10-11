@@ -1,19 +1,26 @@
 package TelegramShkvarBot
 
 
+import com.natpryce.konfig.ConfigurationProperties
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import org.telegram.telegrambots.api.methods.send.SendMessage
 import org.telegram.telegrambots.api.objects.Update
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.exceptions.TelegramApiException
+import java.io.File
 import java.security.SecureRandom
 
+
 class ShkvarBot : TelegramLongPollingBot() {
+    private val CONFIG_FILE = "shkvar.properties";
 
-    val shkvarid = ""
 
-    override fun getBotUsername() = "ShkvarBot"
+    private val config = ConfigurationProperties.fromFile(File(CONFIG_FILE));
+
+
+
+    override fun getBotUsername() = config[shkvarBot.botUsername]
 
     override fun onUpdateReceived(update: Update?) {
         async(CommonPool) {
@@ -43,6 +50,6 @@ class ShkvarBot : TelegramLongPollingBot() {
     }
 
 
-    override fun getBotToken(): String = ""
+    override fun getBotToken(): String = config[shkvarBot.botToken]
 
 }
