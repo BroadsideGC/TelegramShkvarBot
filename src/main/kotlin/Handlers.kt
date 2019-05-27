@@ -4,6 +4,12 @@ import rocks.waffle.telekt.util.replyTo
 import java.security.SecureRandom
 
 suspend fun rollHandler(message: MessageEvent) {
+    message.message.from?.id?.let {
+        if (checkToxik(it)) {
+            message.bot.replyTo(message, "Your toxic level too high")
+            return
+        }
+    }
     val rnd = SecureRandom()
     val roll = (1..9)
         .map { if (it == 1) rnd.nextInt() % 9 + 1 else rnd.nextInt() % 10 }
@@ -12,7 +18,21 @@ suspend fun rollHandler(message: MessageEvent) {
     message.bot.replyTo(message, "You rolled $roll")
 }
 
+fun checkToxik(userId: Long): Boolean {
+    val toxikList = listOf<Long>(82620713)
+    if (userId in toxikList) {
+        return true
+    }
+    return false
+}
+
 suspend fun doublesHandler(message: MessageEvent) {
+    message.message.from?.id?.let {
+        if (checkToxik(it)) {
+            message.bot.replyTo(message, "Your toxic level too high")
+            return
+        }
+    }
     val rnd = SecureRandom()
     val names = message.message.text?.replace("/doubles", "")?.split(',')?.map { it -> it.trim() } ?: emptyList()
     //message.bot.replyTo(message, names.size.toString())
