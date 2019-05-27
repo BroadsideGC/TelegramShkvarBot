@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.3.31'
+    id 'application'
 }
 
 group 'TelegramShkvarBot'
@@ -16,10 +17,12 @@ repositories {
     maven { url "https://plugins.gradle.org/m2/" }
 
 }
-apply plugin:'kotlin'
+apply plugin: 'kotlin'
 
-apply plugin:'application'
-mainClassName = "MainKt"
+application {
+    mainClassName = "MainKt"
+}
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
