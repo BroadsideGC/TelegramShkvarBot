@@ -6,7 +6,7 @@ import java.security.SecureRandom
 suspend fun rollHandler(message: MessageEvent) {
     message.message.from?.id?.let {
         if (checkToxik(it)) {
-            message.bot.replyTo(message, "Your toxic level too high")
+            message.bot.replyTo(message, "Exceeded level of toxicity")
             return
         }
     }
@@ -29,7 +29,7 @@ fun checkToxik(userId: Long): Boolean {
 suspend fun doublesHandler(message: MessageEvent) {
     message.message.from?.id?.let {
         if (checkToxik(it)) {
-            message.bot.replyTo(message, "Your toxic level too high")
+            message.bot.replyTo(message, "Exceeded level of toxicity")
             return
         }
     }
