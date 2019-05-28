@@ -1,7 +1,8 @@
+
 plugins {
-    id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.3.31'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '2.0.1'
 }
 
 group 'TelegramShkvarBot'
@@ -23,6 +24,13 @@ application {
     mainClassName = "MainKt"
 }
 
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    baseName = 'shkvarbot'
+    classifier = null
+    version = null
+}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
