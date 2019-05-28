@@ -1,7 +1,6 @@
 import `fun`.StringGenerator
 import events.EventInChat
 import events.handle
-import khronos.Dates
 import khronos.isWednesday
 import rocks.waffle.telekt.network.InputFile
 import rocks.waffle.telekt.types.enums.ParseMode
@@ -12,6 +11,7 @@ import rocks.waffle.telekt.util.replyTo
 import tournaments.*
 import java.io.File
 import java.security.SecureRandom
+import java.util.*
 
 
 suspend fun rollHandler(messageEvent: MessageEvent) {
@@ -57,7 +57,7 @@ suspend fun wednesdayHandler(messageEvent: MessageEvent) {
             return
         }
     }
-    if (Dates.today.isWednesday()) {
+    if (Date().isWednesday()) {
         val file = getWednesdayFile()
         messageEvent.bot.sendPhoto(
             Recipient(messageEvent.message.chat.id),
