@@ -13,6 +13,7 @@ suspend fun main() {
     dp.messageHandler(CommandFilter("roll"), block = ::rollHandler)
     dp.messageHandler(CommandFilter("doubles"), block = ::doublesHandler)
     dp.messageHandler(CommandFilter("bar"), block = ::barHandler)
+    dp.messageHandler(CommandFilter("wednesday"), block = ::wednesdayHandler)
     dp.messageHandler(CommandFilter("unbar"), block = ::barHandler)
     dp.messageHandler(CommandFilter("call4bar"), block = ::barHandler)
     dp.messageHandler(CommandFilter("tournament"), block = ::tournamentHandler)

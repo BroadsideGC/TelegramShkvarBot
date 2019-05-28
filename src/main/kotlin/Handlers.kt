@@ -3,12 +3,16 @@ import events.Bar
 import events.Joppa
 import events.Smash
 import events.handle
+import khronos.Dates
+import khronos.isWednesday
+import rocks.waffle.telekt.network.InputFile
 import rocks.waffle.telekt.types.enums.ParseMode
 import rocks.waffle.telekt.types.events.MessageEvent
 import rocks.waffle.telekt.types.events.message
 import rocks.waffle.telekt.util.Recipient
 import rocks.waffle.telekt.util.replyTo
 import tournaments.*
+import java.io.File
 import java.security.SecureRandom
 
 
@@ -45,6 +49,24 @@ suspend fun doublesHandler(messageEvent: MessageEvent) {
             val result = names.shuffled(rnd).shuffled(rnd).windowed(2, 2)
             messageEvent.bot.replyTo(messageEvent, result.joinToString("\n"))
         }
+    }
+}
+
+suspend fun wednesdayHandler(messageEvent: MessageEvent) {
+    messageEvent.message.from?.id?.let {
+        if (checkToxik(it)) {
+            messageEvent.bot.replyTo(messageEvent, "Exceeded level of toxicity")
+            return
+        }
+    }
+    if (Dates.today.isWednesday()) {
+        val file = getWednesdayFile()
+        messageEvent.bot.sendPhoto(
+            Recipient(messageEvent.message.chat.id),
+            InputFile(file)
+        )
+    } else {
+        messageEvent.bot.replyTo(messageEvent, "Today is not wednesday")
     }
 }
 
@@ -117,3 +139,7 @@ suspend fun joppaHandler(messageEvent: MessageEvent) {
     val response = Joppa.handle(messageEvent.message, "/jopa", "/unjopa", "/iditeVjopu")
     messageEvent.bot.replyTo(messageEvent, response)
 }
+
+class R
+
+fun getWednesdayFile(): File = File(R::class.java.classLoader.getResource("wednesday.jpg").file)

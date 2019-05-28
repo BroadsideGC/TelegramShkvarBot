@@ -41,6 +41,8 @@ dependencies {
     implementation "rocks.waffle.telekt:telekt:0.2.0"
 
     implementation 'com.uchuhimo:konf:0.13.3'
+
+    implementation 'com.github.hotchemi:khronos:0.9.0'
 }
 
 compileKotlin {
