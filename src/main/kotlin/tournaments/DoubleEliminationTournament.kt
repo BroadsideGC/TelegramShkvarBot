@@ -12,9 +12,9 @@ fun generateBrackets(names: List<String>): Bracket {
     while (n.size < (1 shl p)) n.add("bot ${++botN}")
     n.shuffle()
     val players = ArrayDeque(n)
-    // classic
     val base = ArrayDeque<Bracket>()
     var group = 'A'
+    // base brackets
     while (players.isNotEmpty()) {
         base.add(
             ReadyBracket(
@@ -29,12 +29,13 @@ fun generateBrackets(names: List<String>): Bracket {
     while (base.isNotEmpty()) {
         val top = base.remove()
         val bottom = base.remove()
+        // second winners' generation
         nextW.add(PendingBracket(top, bottom, "Match ${group++}"))
+        // first losers
         nextL.add(PendingBracket(top, bottom, "Match ${group++}", false, false))
     }
     while (nextW.size != 1) {
         assert(nextL.size == nextW.size) { "$nextW != $nextL" }
-        // dropdown
         val tmpL = ArrayDeque<Bracket>()
         val tmpW = ArrayDeque<Bracket>()
         while (nextW.isNotEmpty()) {
@@ -42,9 +43,12 @@ fun generateBrackets(names: List<String>): Bracket {
             val bottomW = nextW.remove()
             val topL = nextL.remove()
             val bottomL = nextL.remove()
+            // dropdown
             val comingTopL = PendingBracket(topW, topL, "Match ${group++}", false, true)
             val comingBottomL = PendingBracket(bottomW, bottomL, "Match ${group++}", false, true)
+            // winners
             tmpW.add(PendingBracket(topW, bottomW, "Match ${group++}"))
+            // losers
             tmpL.add(PendingBracket(comingTopL, comingBottomL, "Match ${group++}", true, true))
         }
         nextW = tmpW
@@ -107,8 +111,8 @@ class PendingBracket(
         get() = topFrom.result != BracketResult.NOT_PLAYED && bottomFrom.result != BracketResult.NOT_PLAYED
 
     private fun player(from: Bracket, win: Boolean) = when (from.result) {
-        BracketResult.WINNER_TOP -> from.top
-        BracketResult.WINNER_BOTTOM -> from.bottom
+        BracketResult.WINNER_TOP -> if (win) from.top else from.bottom
+        BracketResult.WINNER_BOTTOM -> if (win) from.bottom else from.top
         BracketResult.NOT_PLAYED -> Pair(if (win) "(winners" else "(losers", "${from.name})")
     }
 }
