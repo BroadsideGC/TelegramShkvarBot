@@ -15,6 +15,7 @@ suspend fun main() {
     dp.messageHandler(CommandFilter("tournament"), block = ::tournamentHandler)
     dp.messageHandler(CommandFilter("next"), block = ::nextBracket)
     dp.messageHandler(CommandFilter("win"), block = ::win)
+    dp.messageHandler(CommandFilter("ikea"), block = ::ikea)
 
     dp.poll()
 }

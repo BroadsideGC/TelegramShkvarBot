@@ -103,3 +103,7 @@ suspend fun win(message: MessageEvent) {
     current.result = result
     message.bot.replyTo(message, "Got it!\n${current.pretty()}\n\n$result")
 }
+
+suspend fun ikea(message: MessageEvent) {
+    message.bot.replyTo(message, StringGenerator.randomWord())
+}
