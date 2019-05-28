@@ -1,7 +1,5 @@
 import `fun`.StringGenerator
-import events.Bar
-import events.Joppa
-import events.Smash
+import events.EventInChat
 import events.handle
 import khronos.Dates
 import khronos.isWednesday
@@ -125,19 +123,22 @@ suspend fun ikea(messageEvent: MessageEvent) {
     messageEvent.bot.replyTo(messageEvent, StringGenerator.randomWord())
 }
 
-suspend fun smashHandler(messageEvent: MessageEvent) {
-    val response = Smash.handle(messageEvent.message, "/smash", "/unsmash", "/call4smash")
-    messageEvent.bot.replyTo(messageEvent, response)
+internal fun makeHandler(
+    event: EventInChat,
+    registerCommand: String,
+    unregisterCommand: String,
+    callCommand: String
+): suspend (MessageEvent) -> Unit = { messageEvent ->
+    val response = event.handle(messageEvent.message, registerCommand, unregisterCommand, callCommand)
+    messageEvent.bot.replyTo(messageEvent, response, ParseMode.MARKDOWN)
 }
 
-suspend fun barHandler(messageEvent: MessageEvent) {
-    val response = Bar.handle(messageEvent.message, "/bar", "/unbar", "/call4bar")
-    messageEvent.bot.replyTo(messageEvent, response)
-}
-
-suspend fun joppaHandler(messageEvent: MessageEvent) {
-    val response = Joppa.handle(messageEvent.message, "/jopa", "/unjopa", "/iditeVjopu")
-    messageEvent.bot.replyTo(messageEvent, response)
+suspend fun broadcast(messageEvent: MessageEvent) {
+    val textToBroadcast = messageEvent.message.text?.removePrefix("/broadcast")?.trim() ?: return
+    messageEvent.bot.sendMessage(
+        Recipient(messageEvent.message.chat.id),
+        barUsers.joinToString(" ", transform = { "@$it" }) + " " + textToBroadcast
+    )
 }
 
 class R
