@@ -1,4 +1,8 @@
 import `fun`.StringGenerator
+import events.Bar
+import events.Joppa
+import events.Smash
+import events.handle
 import rocks.waffle.telekt.types.enums.ParseMode
 import rocks.waffle.telekt.types.events.MessageEvent
 import rocks.waffle.telekt.types.events.message
@@ -43,11 +47,6 @@ suspend fun doublesHandler(messageEvent: MessageEvent) {
         }
     }
 }
-
-suspend fun barHandler(messageEvent: MessageEvent) {
-    messageEvent.bot.replyTo(messageEvent, "${barUsers.joinToString(" ")} го в бар")
-}
-
 
 fun checkToxik(userId: Long) = userId in toxiks
 
@@ -102,4 +101,19 @@ suspend fun win(messageEvent: MessageEvent) {
 
 suspend fun ikea(messageEvent: MessageEvent) {
     messageEvent.bot.replyTo(messageEvent, StringGenerator.randomWord())
+}
+
+suspend fun smashHandler(messageEvent: MessageEvent) {
+    val response = Smash.handle(messageEvent.message, "/smash", "/unsmash", "/call4smash")
+    messageEvent.bot.replyTo(messageEvent, response)
+}
+
+suspend fun barHandler(messageEvent: MessageEvent) {
+    val response = Bar.handle(messageEvent.message, "/bar", "/unbar", "/call4bar")
+    messageEvent.bot.replyTo(messageEvent, response)
+}
+
+suspend fun joppaHandler(messageEvent: MessageEvent) {
+    val response = Joppa.handle(messageEvent.message, "/jopa", "/unjopa", "/iditeVjopu")
+    messageEvent.bot.replyTo(messageEvent, response)
 }
