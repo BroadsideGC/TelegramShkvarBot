@@ -16,6 +16,8 @@ suspend fun main() {
     dp.messageHandler(CommandFilter("roll"), block = ::rollHandler)
     dp.messageHandler(CommandFilter("doubles"), block = ::doublesHandler)
     dp.messageHandler(CommandFilter("wednesday"), block = ::wednesdayHandler)
+    dp.messageHandler(CommandFilter("todayOngoings"), block = ::todayOngoingsHandler)
+    dp.messageHandler(CommandFilter("toxics"), block = ::toxicsHandler)
     dp.messageHandler(
         CommandFilter("bar", "unbar", "call4bar"),
         block = makeHandler(Bar, "/bar", "/unbar", "/call4bar")

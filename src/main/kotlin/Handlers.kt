@@ -1,7 +1,7 @@
 import `fun`.StringGenerator
+import anime365.getTodayOngoingTranslations
 import events.EventInChat
 import events.handle
-import khronos.isWednesday
 import rocks.waffle.telekt.network.InputFile
 import rocks.waffle.telekt.types.enums.ParseMode
 import rocks.waffle.telekt.types.events.MessageEvent
@@ -57,7 +57,8 @@ suspend fun wednesdayHandler(messageEvent: MessageEvent) {
             return
         }
     }
-    if (Date().isWednesday()) {
+    val localCalendar = Calendar.getInstance(TimeZone.getDefault())
+    if (localCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
         val file = getWednesdayFile()
         messageEvent.bot.sendPhoto(
             Recipient(messageEvent.message.chat.id),
@@ -65,6 +66,33 @@ suspend fun wednesdayHandler(messageEvent: MessageEvent) {
         )
     } else {
         messageEvent.bot.replyTo(messageEvent, "Today is not wednesday")
+    }
+}
+
+suspend fun todayOngoingsHandler(messageEvent: MessageEvent) {
+    messageEvent.message.from?.id?.let {
+        if (checkToxik(it)) {
+            messageEvent.bot.replyTo(messageEvent, "Exceeded level of toxicity")
+            return
+        }
+    }
+    val res = getTodayOngoingTranslations().distinctBy { it.series.title }
+        .map { "${it.series.title} ${it.episode.episodeFull}" }
+    messageEvent.bot.replyTo(messageEvent, res.joinToString("\n"))
+}
+
+suspend fun toxicsHandler(messageEvent: MessageEvent) {
+    if (messageEvent.message.chat.type != "private") {
+        val toxicsInfo =
+            toxiks.mapNotNull {
+                try {
+                    messageEvent.bot.getChatMember(Recipient(messageEvent.message.chat.id), it.toInt())
+                } catch (e: Exception) {
+                    null
+                }
+            }
+        val toxicsUsernames = toxicsInfo.map { "@${it.user.username}" }
+        messageEvent.bot.replyTo(messageEvent, "Current toxics list:\n${toxicsUsernames.joinToString("\n")}")
     }
 }
 
