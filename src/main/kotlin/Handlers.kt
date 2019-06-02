@@ -108,6 +108,17 @@ suspend fun markovHandler(messageEvent: MessageEvent) {
     markovChain5.processText(text)
 }
 
+suspend fun randomGenerateHandler(messageEvent: MessageEvent) {
+    val rnd = SecureRandom()
+    if (rnd.nextInt(100) < replyChance) {
+        if (rnd.nextBoolean()) {
+            generate5Handler(messageEvent)
+        } else {
+            generate3Handler(messageEvent)
+        }
+    }
+}
+
 suspend fun generate3Handler(messageEvent: MessageEvent) {
     val rnd = SecureRandom()
     val text = markovChain3.generate(minsize = rnd.nextInt(20) + 15).trim()
