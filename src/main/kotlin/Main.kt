@@ -4,7 +4,9 @@ import events.Joppa
 import events.Smash
 import rocks.waffle.telekt.bot.Bot
 import rocks.waffle.telekt.contrib.filters.CommandFilter
+import rocks.waffle.telekt.contrib.filters.ContentTypeFilter
 import rocks.waffle.telekt.dispatcher.Dispatcher
+import rocks.waffle.telekt.types.enums.ContentType
 
 
 suspend fun main() {
@@ -19,6 +21,7 @@ suspend fun main() {
     dp.messageHandler(CommandFilter("todayOngoings"), block = ::todayOngoingsHandler)
     dp.messageHandler(CommandFilter("generate3"), block = ::generate3Handler)
     dp.messageHandler(CommandFilter("generate5"), block = ::generate5Handler)
+    dp.messageHandler(ContentTypeFilter(ContentType.TEXT), block = ::randomGenerateHandler)
     dp.messageHandler(CommandFilter("markov"), block = ::markovHandler)
     dp.messageHandler(CommandFilter("toxics"), block = ::toxicsHandler)
     dp.messageHandler(

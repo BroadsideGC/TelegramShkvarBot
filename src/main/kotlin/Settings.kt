@@ -1,4 +1,5 @@
 import SettingsSpec.barUsernames
+import SettingsSpec.replyChance
 import SettingsSpec.toxics
 import com.uchuhimo.konf.Config
 import com.uchuhimo.konf.ConfigSpec
@@ -7,6 +8,7 @@ object SettingsSpec : ConfigSpec("bot") {
     val token by required<String>()
     val toxics by optional(emptyList<Long>())
     val barUsernames by optional(emptyList<String>())
+    val replyChance by optional(5) // from 0 to 100
     val eventExpireTime by optional<Long>(1000 * 60 * 60 * 6) // 6hrs in ms
 }
 
@@ -22,3 +24,4 @@ val settings = Config {
 
 val toxiks = settings[toxics]
 val barUsers = settings[barUsernames]
+val replyChance = settings[replyChance]

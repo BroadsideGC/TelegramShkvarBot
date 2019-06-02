@@ -1,4 +1,5 @@
 import `fun`.StringGenerator
+import kotlin.random.Random
 import anime365.getTodayOngoingTranslations
 import events.EventInChat
 import events.handle
@@ -106,6 +107,16 @@ suspend fun markovHandler(messageEvent: MessageEvent) {
     val text = messageEvent.message.text ?: ""
     markovChain3.processText(text)
     markovChain5.processText(text)
+}
+
+suspend fun randomGenerateHandler(messageEvent: MessageEvent) {
+    if (Random.nextInt(0, 99) < replyChance) {
+        if (Random.nextBoolean()) {
+            generate5Handler(messageEvent)
+        } else {
+            generate3Handler(messageEvent)
+        }
+    }
 }
 
 suspend fun generate3Handler(messageEvent: MessageEvent) {
