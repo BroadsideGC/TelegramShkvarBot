@@ -149,6 +149,6 @@ class MarkovChain(elascticSearchClient: RestHighLevelClient, index: String, priv
     }
 }
 
-val markovChain2 = MarkovChain(esClient, indexName3, 2)
+val markovChain2 = MarkovChain(esClient, indexName2, 2)
 val markovChain3 = MarkovChain(esClient, indexName3, 3)
 val markovChain5 = MarkovChain(esClient, indexName5, 5)
