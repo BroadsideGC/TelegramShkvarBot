@@ -109,7 +109,8 @@ suspend fun markovHandler(messageEvent: MessageEvent) {
 }
 
 suspend fun generate3Handler(messageEvent: MessageEvent) {
-    val text = markovChain3.generate().trim()
+    val rnd = SecureRandom()
+    val text = markovChain3.generate(minsize = rnd.nextInt(20) + 15).trim()
     if (text.isNotEmpty()) {
         messageEvent.bot.replyTo(messageEvent, text)
     }
@@ -117,7 +118,8 @@ suspend fun generate3Handler(messageEvent: MessageEvent) {
 }
 
 suspend fun generate5Handler(messageEvent: MessageEvent) {
-    val text = markovChain5.generate().trim()
+    val rnd = SecureRandom()
+    val text = markovChain5.generate(minsize = rnd.nextInt(20) + 15).trim()
     if (text.isNotEmpty()) {
         messageEvent.bot.replyTo(messageEvent, text)
     }
