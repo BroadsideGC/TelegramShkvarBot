@@ -2,6 +2,7 @@ import `fun`.StringGenerator
 import anime365.getTodayOngoingTranslations
 import events.EventInChat
 import events.handle
+import markov.markovChain2
 import markov.markovChain3
 import markov.markovChain5
 import rocks.waffle.telekt.network.InputFile
@@ -111,17 +112,26 @@ suspend fun markovHandler(messageEvent: MessageEvent) {
 suspend fun randomGenerateHandler(messageEvent: MessageEvent) {
     val rnd = SecureRandom()
     if (rnd.nextInt(100) < replyChance) {
-        if (rnd.nextBoolean()) {
-            generate5Handler(messageEvent)
-        } else {
-            generate3Handler(messageEvent)
+        when (rnd.nextInt(3)) {
+            0 -> generate5Handler(messageEvent)
+            1 -> generate3Handler(messageEvent)
+            else -> generate2Handler(messageEvent)
         }
     }
 }
 
+suspend fun generate2Handler(messageEvent: MessageEvent) {
+    val rnd = SecureRandom()
+    val text = markovChain2.generate(minsize = rnd.nextInt(40) + 15).trim()
+    if (text.isNotEmpty()) {
+        messageEvent.bot.replyTo(messageEvent, text)
+    }
+
+}
+
 suspend fun generate3Handler(messageEvent: MessageEvent) {
     val rnd = SecureRandom()
-    val text = markovChain3.generate(minsize = rnd.nextInt(20) + 15).trim()
+    val text = markovChain3.generate(minsize = rnd.nextInt(40) + 15).trim()
     if (text.isNotEmpty()) {
         messageEvent.bot.replyTo(messageEvent, text)
     }
@@ -130,7 +140,7 @@ suspend fun generate3Handler(messageEvent: MessageEvent) {
 
 suspend fun generate5Handler(messageEvent: MessageEvent) {
     val rnd = SecureRandom()
-    val text = markovChain5.generate(minsize = rnd.nextInt(20) + 15).trim()
+    val text = markovChain5.generate(minsize = rnd.nextInt(40) + 15).trim()
     if (text.isNotEmpty()) {
         messageEvent.bot.replyTo(messageEvent, text)
     }

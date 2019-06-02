@@ -24,6 +24,7 @@ data class NGram(val previousWords: List<String>, val word: String, var count: I
     val pvHash = previousWords.hashCode()
 }
 
+const val indexName2 = "markov2"
 const val indexName3 = "markov3"
 const val indexName5 = "markov5"
 val esClient = RestHighLevelClient(host = settings["elastic.address"], port = settings["elastic.port"])
@@ -148,5 +149,6 @@ class MarkovChain(elascticSearchClient: RestHighLevelClient, index: String, priv
     }
 }
 
+val markovChain2 = MarkovChain(esClient, indexName3, 2)
 val markovChain3 = MarkovChain(esClient, indexName3, 3)
 val markovChain5 = MarkovChain(esClient, indexName5, 5)

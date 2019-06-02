@@ -19,6 +19,7 @@ suspend fun main() {
     dp.messageHandler(CommandFilter("doubles"), block = ::doublesHandler)
     dp.messageHandler(CommandFilter("wednesday"), block = ::wednesdayHandler)
     dp.messageHandler(CommandFilter("todayOngoings"), block = ::todayOngoingsHandler)
+    dp.messageHandler(CommandFilter("generate2"), block = ::generate2Handler)
     dp.messageHandler(CommandFilter("generate3"), block = ::generate3Handler)
     dp.messageHandler(CommandFilter("generate5"), block = ::generate5Handler)
     dp.messageHandler(ContentTypeFilter(ContentType.TEXT), block = ::randomGenerateHandler)

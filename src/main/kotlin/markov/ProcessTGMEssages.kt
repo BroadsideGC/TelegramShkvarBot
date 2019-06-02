@@ -18,7 +18,8 @@ fun main() {
     val data = Json.nonstrict.parse(TGMessage.serializer().list, file.readText())
     runBlocking {
         data.filter { it.body != null && it.body.isNotEmpty() }.forEach {
-            markovChain3.processText(it.body!!)
+            markovChain2.processText(it.body!!)
+            markovChain3.processText(it.body)
             markovChain5.processText(it.body)
         }
     }
