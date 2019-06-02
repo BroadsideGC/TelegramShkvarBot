@@ -41,7 +41,7 @@ suspend fun main() {
         block = makeHandler(Joppa, "/jopa", "/unjopa", "/iditeVjopu")
     )
     dp.messageHandler(CommandFilter("broadcast"), block = ::broadcast)
-    dp.messageHandler(block = ::markovHandler)
+    dp.messageHandler(ContentTypeFilter(ContentType.TEXT), block = ::markovHandler)
 
     dp.poll()
 }
