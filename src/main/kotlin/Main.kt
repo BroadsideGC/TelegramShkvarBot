@@ -17,6 +17,8 @@ suspend fun main() {
     dp.messageHandler(CommandFilter("doubles"), block = ::doublesHandler)
     dp.messageHandler(CommandFilter("wednesday"), block = ::wednesdayHandler)
     dp.messageHandler(CommandFilter("todayOngoings"), block = ::todayOngoingsHandler)
+    dp.messageHandler(CommandFilter("generate"), block = ::generateHandler)
+    dp.messageHandler(CommandFilter("markov"), block = ::markovHandler)
     dp.messageHandler(CommandFilter("toxics"), block = ::toxicsHandler)
     dp.messageHandler(
         CommandFilter("bar", "unbar", "call4bar"),
@@ -35,6 +37,7 @@ suspend fun main() {
         block = makeHandler(Joppa, "/jopa", "/unjopa", "/iditeVjopu")
     )
     dp.messageHandler(CommandFilter("broadcast"), block = ::broadcast)
+    dp.messageHandler(block = ::markovHandler)
 
     dp.poll()
 }

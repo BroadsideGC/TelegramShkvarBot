@@ -10,7 +10,15 @@ object SettingsSpec : ConfigSpec("bot") {
     val eventExpireTime by optional<Long>(1000 * 60 * 60 * 6) // 6hrs in ms
 }
 
-val settings = Config { addSpec(SettingsSpec) }.from.json.resource("settings.json")
+object ESSettingsSpec : ConfigSpec("elastic") {
+    val address by optional("127.0.0.1")
+    val port by optional(9200)
+}
+
+val settings = Config {
+    addSpec(SettingsSpec)
+    addSpec(ESSettingsSpec)
+}.from.json.resource("settings.json")
 
 val toxiks = settings[toxics]
 val barUsers = settings[barUsernames]

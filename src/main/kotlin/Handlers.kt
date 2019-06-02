@@ -2,6 +2,7 @@ import `fun`.StringGenerator
 import anime365.getTodayOngoingTranslations
 import events.EventInChat
 import events.handle
+import markov.markovChain
 import rocks.waffle.telekt.network.InputFile
 import rocks.waffle.telekt.types.enums.ParseMode
 import rocks.waffle.telekt.types.events.MessageEvent
@@ -78,7 +79,11 @@ suspend fun todayOngoingsHandler(messageEvent: MessageEvent) {
     }
     val res = getTodayOngoingTranslations().distinctBy { it.series.title }
         .map { "${it.series.title} ${it.episode.episodeFull}" }
-    messageEvent.bot.replyTo(messageEvent, res.joinToString("\n"))
+    if (res.isNotEmpty()) {
+        messageEvent.bot.replyTo(messageEvent, res.joinToString("\n"))
+    } else {
+        messageEvent.bot.replyTo(messageEvent, "Пока нет новых серий")
+    }
 }
 
 suspend fun toxicsHandler(messageEvent: MessageEvent) {
@@ -94,6 +99,19 @@ suspend fun toxicsHandler(messageEvent: MessageEvent) {
         val toxicsUsernames = toxicsInfo.map { "@${it.user.username}" }
         messageEvent.bot.replyTo(messageEvent, "Current toxics list:\n${toxicsUsernames.joinToString("\n")}")
     }
+}
+
+suspend fun markovHandler(messageEvent: MessageEvent) {
+    val text = messageEvent.message.text ?: ""
+    markovChain.processText(text)
+}
+
+suspend fun generateHandler(messageEvent: MessageEvent) {
+    val text = markovChain.generate().trim()
+    if (text.isNotEmpty()) {
+        messageEvent.bot.replyTo(messageEvent, text)
+    }
+
 }
 
 fun checkToxik(userId: Long) = userId in toxiks
