@@ -2,7 +2,8 @@ import `fun`.StringGenerator
 import anime365.getTodayOngoingTranslations
 import events.EventInChat
 import events.handle
-import markov.markovChain
+import markov.markovChain3
+import markov.markovChain5
 import rocks.waffle.telekt.network.InputFile
 import rocks.waffle.telekt.types.enums.ParseMode
 import rocks.waffle.telekt.types.events.MessageEvent
@@ -103,11 +104,20 @@ suspend fun toxicsHandler(messageEvent: MessageEvent) {
 
 suspend fun markovHandler(messageEvent: MessageEvent) {
     val text = messageEvent.message.text ?: ""
-    markovChain.processText(text)
+    markovChain3.processText(text)
+    markovChain5.processText(text)
 }
 
-suspend fun generateHandler(messageEvent: MessageEvent) {
-    val text = markovChain.generate().trim()
+suspend fun generate3Handler(messageEvent: MessageEvent) {
+    val text = markovChain3.generate().trim()
+    if (text.isNotEmpty()) {
+        messageEvent.bot.replyTo(messageEvent, text)
+    }
+
+}
+
+suspend fun generate5Handler(messageEvent: MessageEvent) {
+    val text = markovChain5.generate().trim()
     if (text.isNotEmpty()) {
         messageEvent.bot.replyTo(messageEvent, text)
     }

@@ -24,13 +24,14 @@ data class NGram(val previousWords: List<String>, val word: String, var count: I
     val pvHash = previousWords.hashCode()
 }
 
-const val indexName = "markov"
+const val indexName3 = "markov3"
+const val indexName5 = "markov5"
 val esClient = RestHighLevelClient(host = settings["elastic.address"], port = settings["elastic.port"])
 
-class MarkovChain(elascticSearchClient: RestHighLevelClient, private val n: Int = 5) {
+class MarkovChain(elascticSearchClient: RestHighLevelClient, index: String, private val n: Int = 5) {
 
     private val dao = elascticSearchClient.crudDao(
-        indexName, type = "_doc", modelReaderAndWriter = JacksonModelReaderAndWriter(
+        index, type = "_doc", modelReaderAndWriter = JacksonModelReaderAndWriter(
             NGram::class,
             ObjectMapper().findAndRegisterModules()
         )
@@ -78,7 +79,7 @@ class MarkovChain(elascticSearchClient: RestHighLevelClient, private val n: Int 
     }
 
     private fun prepareText(text: String): String {
-        return " ${text.replace("/.+ ".toRegex(), "")}"
+        return " ${text.replace("""/\w+ """.toRegex(), "")}"
             .replace("""\s+""".toRegex(), " ")
             .replace("([()\\[\\]{}])".toRegex(), "")
             .replace("(\\.\\.\\.|\\.|\\?|!|,)".toRegex()) { m ->
@@ -147,4 +148,5 @@ class MarkovChain(elascticSearchClient: RestHighLevelClient, private val n: Int 
     }
 }
 
-val markovChain = MarkovChain(esClient)
+val markovChain3 = MarkovChain(esClient, indexName3, 3)
+val markovChain5 = MarkovChain(esClient, indexName5, 5)
