@@ -50,7 +50,7 @@ class MarkovChain(elascticSearchClient: RestHighLevelClient, index: String, priv
     }
 
 
-    private fun addGram(nGram: NGram) {
+    private suspend fun addGram(nGram: NGram) {
         val id = Objects.hash(nGram.previousWords, nGram.word).toString()
         val ng = dao.get(id)
         if (ng != null) {
@@ -63,7 +63,7 @@ class MarkovChain(elascticSearchClient: RestHighLevelClient, index: String, priv
         }
     }
 
-    fun processText(text: String) {
+    suspend fun processText(text: String) {
         val window = ArrayDeque<String>()
         val preparedText = "${prepareText(text)} "
         val tokens = preparedText.split(" ")

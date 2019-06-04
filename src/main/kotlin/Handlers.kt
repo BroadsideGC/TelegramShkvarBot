@@ -105,8 +105,14 @@ suspend fun toxicsHandler(messageEvent: MessageEvent) {
 
 suspend fun markovHandler(messageEvent: MessageEvent) {
     val text = messageEvent.message.text ?: ""
+    markovChain2.processText(text)
     markovChain3.processText(text)
     markovChain5.processText(text)
+}
+
+suspend fun allHandler(messageEvent: MessageEvent) {
+    markovHandler(messageEvent)
+    randomGenerateHandler(messageEvent)
 }
 
 suspend fun randomGenerateHandler(messageEvent: MessageEvent) {

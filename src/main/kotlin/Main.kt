@@ -22,7 +22,6 @@ suspend fun main() {
     dp.messageHandler(CommandFilter("generate2"), block = ::generate2Handler)
     dp.messageHandler(CommandFilter("generate3"), block = ::generate3Handler)
     dp.messageHandler(CommandFilter("generate5"), block = ::generate5Handler)
-    dp.messageHandler(ContentTypeFilter(ContentType.TEXT), block = ::randomGenerateHandler)
     dp.messageHandler(CommandFilter("markov"), block = ::markovHandler)
     dp.messageHandler(CommandFilter("toxics"), block = ::toxicsHandler)
     dp.messageHandler(
@@ -42,7 +41,7 @@ suspend fun main() {
         block = makeHandler(Joppa, "/jopa", "/unjopa", "/iditeVjopu")
     )
     dp.messageHandler(CommandFilter("broadcast"), block = ::broadcast)
-    dp.messageHandler(ContentTypeFilter(ContentType.TEXT), block = ::markovHandler)
+    dp.messageHandler(ContentTypeFilter(ContentType.TEXT), block = ::allHandler)
 
     dp.poll()
 }
