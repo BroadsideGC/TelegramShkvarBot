@@ -209,7 +209,7 @@ internal fun makeHandler(
     callCommand: String
 ): suspend (MessageEvent) -> Unit = { messageEvent ->
     val response = event.handle(messageEvent.message, registerCommand, unregisterCommand, callCommand)
-    messageEvent.bot.replyTo(messageEvent, response, ParseMode.MARKDOWN)
+    messageEvent.bot.replyTo(messageEvent, response, ParseMode.HTML)
 }
 
 suspend fun broadcast(messageEvent: MessageEvent) {
