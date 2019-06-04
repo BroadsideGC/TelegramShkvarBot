@@ -12,7 +12,6 @@ import rocks.waffle.telekt.types.events.message
 import rocks.waffle.telekt.util.Recipient
 import rocks.waffle.telekt.util.replyTo
 import tournaments.*
-import java.io.File
 import java.security.SecureRandom
 import java.util.*
 
@@ -65,7 +64,7 @@ suspend fun wednesdayHandler(messageEvent: MessageEvent) {
         val file = getWednesdayFile()
         messageEvent.bot.sendPhoto(
             Recipient(messageEvent.message.chat.id),
-            InputFile(file)
+            InputFile(file.file)
         )
     } else {
         messageEvent.bot.replyTo(messageEvent, "Today is not wednesday")
@@ -228,4 +227,4 @@ suspend fun broadcast(messageEvent: MessageEvent) {
 
 class R
 
-fun getWednesdayFile(): File = File(R::class.java.classLoader.getResource("wednesday.jpg").file)
+fun getWednesdayFile() = R::class.java.classLoader.getResource("wednesday.jpg")
