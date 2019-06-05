@@ -59,12 +59,13 @@ suspend fun wednesdayHandler(messageEvent: MessageEvent) {
             return
         }
     }
+
     val localCalendar = Calendar.getInstance(TimeZone.getDefault())
     if (localCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-        val file = getWednesdayFile()
+        val fileId = getWednesdayFileId()
         messageEvent.bot.sendPhoto(
             Recipient(messageEvent.message.chat.id),
-            InputFile(file.file)
+            InputFile(fileId)
         )
     } else {
         messageEvent.bot.replyTo(messageEvent, "Today is not wednesday")
@@ -225,6 +226,4 @@ suspend fun broadcast(messageEvent: MessageEvent) {
     )
 }
 
-class R
-
-fun getWednesdayFile() = R::class.java.classLoader.getResource("wednesday.jpg")
+fun getWednesdayFileId() = "AgADAgADqaoxG-GRwEvOUeREMdsyGK9QXw8ABKj2DhsNSAXkH6cFAAEC"
