@@ -50,7 +50,7 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.2.3"
 
     // telekt itself
-    implementation "rocks.waffle.telekt:telekt:0.2.0"
+    implementation "rocks.waffle.telekt:telekt:0.6.7"
 
     implementation 'com.uchuhimo:konf:0.13.3'
 
