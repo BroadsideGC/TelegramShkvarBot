@@ -1,0 +1,5 @@
+{
+  "resources": [
+    {"pattern": "<Java regexp that matches resource(s) to be included in the image>"}
+  ]
+}

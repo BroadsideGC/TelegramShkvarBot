@@ -1,0 +1,2 @@
+/lib/jvm/java-8-graal/bin/native-image -jar build/fatjar/telegrambot.jar --report-unsupported-elements-at-runtime --allow-incomplete-classpath --no-fallback -H:IncludeResources='.*settings\.json$' -H:Log=registerResource: --verbose --no-server -H:ReflectionConfigurationFiles='./src/main/resources/reflect-config.json' --enable-url-protocols=http --enable-https -H:-UseServiceLoaderFeature --enable-all-security-services -H:+JNI -Djava.library.path=/lib/jvm/java-8-graal/jre/lib/amd64
+

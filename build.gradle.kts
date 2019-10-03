@@ -52,7 +52,7 @@ val fatjar by tasks.creating(Jar::class) {
     }
 
     destinationDirectory.set(project.buildDir.resolve("fatjar"))
-    archiveFileName.set("example.jar")
+    archiveFileName.set("telegrambot.jar")
 }
 
 tasks.named("assemble").configure {
@@ -88,6 +88,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core-jvm:1.1.3")
     testCompile("org.jetbrains.kotlin:kotlin-test")
     testCompile("org.jetbrains.kotlin:kotlin-test-junit")
+    compileOnly("com.oracle.substratevm:svm:19.2.0.1")
 
 
     // logging
