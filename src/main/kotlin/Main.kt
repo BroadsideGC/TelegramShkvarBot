@@ -1,7 +1,13 @@
+import DBSettingsSpec.url
+import DBSettingsSpec.password
+import DBSettingsSpec.username
 import SettingsSpec.token
+import com.zaxxer.hikari.HikariDataSource
+
 import events.Bar
 import events.Joppa
 import events.Smash
+import org.jetbrains.exposed.sql.Database
 import rocks.waffle.telekt.bot.Bot
 import rocks.waffle.telekt.contrib.filters.CommandFilter
 import rocks.waffle.telekt.contrib.filters.ContentTypeFilter
@@ -14,6 +20,15 @@ suspend fun main() {
 
     val bot = Bot(token = token)
     val dp = Dispatcher(bot)
+
+    hikariConfig.jdbcUrl = settings[url]
+    hikariConfig.username = settings[username]
+    hikariConfig.password = settings[password]
+    hikariConfig.driverClassName = "org.postgresql.Driver"
+
+    hikariDataSource = HikariDataSource(hikariConfig)
+
+    Database.Companion.connect(hikariDataSource)
 
     dp.messageHandler(CommandFilter("roll"), block = ::rollHandler)
     dp.messageHandler(CommandFilter("doubles"), block = ::doublesHandler)

@@ -2,9 +2,7 @@ import `fun`.StringGenerator
 import anime365.getTodayOngoingTranslations
 import events.EventInChat
 import events.handle
-import markov.markovChain2
-import markov.markovChain3
-import markov.markovChain5
+import markov.markovChain
 import rocks.waffle.telekt.network.InputFile
 import rocks.waffle.telekt.types.enums.ParseMode
 import rocks.waffle.telekt.types.events.MessageEvent
@@ -105,9 +103,7 @@ suspend fun toxicsHandler(messageEvent: MessageEvent) {
 
 suspend fun markovHandler(messageEvent: MessageEvent) {
     val text = messageEvent.message.text ?: ""
-    markovChain2.processText(text)
-    markovChain3.processText(text)
-    markovChain5.processText(text)
+    markovChain.processText(text)
 }
 
 suspend fun allHandler(messageEvent: MessageEvent) {
@@ -128,7 +124,7 @@ suspend fun randomGenerateHandler(messageEvent: MessageEvent) {
 
 suspend fun generate2Handler(messageEvent: MessageEvent) {
     val rnd = SecureRandom()
-    val text = markovChain2.generate(minsize = rnd.nextInt(20) + 5).trim()
+    val text = markovChain.generate(minsize = rnd.nextInt(20) + 5, n = 1).trim()
     if (text.isNotEmpty()) {
         messageEvent.bot.replyTo(messageEvent, text)
     }
@@ -137,7 +133,7 @@ suspend fun generate2Handler(messageEvent: MessageEvent) {
 
 suspend fun generate3Handler(messageEvent: MessageEvent) {
     val rnd = SecureRandom()
-    val text = markovChain3.generate(minsize = rnd.nextInt(20) + 5).trim()
+    val text = markovChain.generate(minsize = rnd.nextInt(20) + 5, n = 2).trim()
     if (text.isNotEmpty()) {
         messageEvent.bot.replyTo(messageEvent, text)
     }
@@ -146,7 +142,7 @@ suspend fun generate3Handler(messageEvent: MessageEvent) {
 
 suspend fun generate5Handler(messageEvent: MessageEvent) {
     val rnd = SecureRandom()
-    val text = markovChain5.generate(minsize = rnd.nextInt(20) + 5).trim()
+    val text = markovChain.generate(minsize = rnd.nextInt(20) + 5, n = 4).trim()
     if (text.isNotEmpty()) {
         messageEvent.bot.replyTo(messageEvent, text)
     }

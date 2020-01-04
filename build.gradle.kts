@@ -1,19 +1,22 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+
 buildscript {
+    val kotlinVersion = "1.3.60"
+
     repositories {
         jcenter()
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.3.31")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
     }
 }
 
 plugins {
-    kotlin("jvm") version "1.3.31"
+    kotlin("jvm") version "1.3.60"
     application
     id("com.github.johnrengelman.shadow") version "5.1.0"
     id("com.palantir.graal") version "0.6.0"
@@ -89,6 +92,12 @@ dependencies {
     testCompile("org.jetbrains.kotlin:kotlin-test")
     testCompile("org.jetbrains.kotlin:kotlin-test-junit")
     compileOnly("com.oracle.substratevm:svm:19.2.0.1")
+    compile("org.jetbrains.exposed", "exposed-core", "0.20.1")
+    compile("org.jetbrains.exposed", "exposed-dao", "0.20.1")
+    compile("org.jetbrains.exposed", "exposed-jdbc", "0.20.1")
+    implementation("com.zaxxer:HikariCP:3.4.1")
+    implementation("org.postgresql:postgresql:42.2.9")
+
 
 
     // logging
@@ -100,6 +109,6 @@ dependencies {
 
     implementation("com.uchuhimo:konf:0.13.3")
 
-    implementation("com.github.jillesvangurp:es-kotlin-wrapper-client:0.11.0")
-
 }
+
+
