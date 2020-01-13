@@ -30,8 +30,8 @@ fun main() {
     hikariDataSource = HikariDataSource(hikariConfig)
 
     Database.Companion.connect(hikariDataSource)
-    val file = R::class.java.classLoader.getResource("sh_messages_tg_full.json")
-    val data = Json.nonstrict.parse(TGMessage.serializer().list, file.readText())
+    val file = R::class.java.classLoader.getResource("sh_messages_tg.json")
+    val data = Json.nonstrict.parse(TGMessage.serializer().list, file!!.readText())
     runBlocking {
         data.filter { it.message != null && it.message.isNotEmpty() }.forEach {
             it.message?.let { it1 -> markovChain.processText(it1) }

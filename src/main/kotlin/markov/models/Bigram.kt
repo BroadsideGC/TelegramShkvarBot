@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
 object Bigrams : IntIdTable() {
-    val word1 = text("word1").index()
+    val word1 = text("word1")
     val nextWord = text("next_word")
     val count = integer("count").default(1)
 

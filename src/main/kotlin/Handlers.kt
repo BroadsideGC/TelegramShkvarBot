@@ -214,6 +214,15 @@ internal fun makeHandler(
     messageEvent.bot.replyTo(messageEvent, response, ParseMode.HTML)
 }
 
+suspend fun askAboutPsychologist(messageEvent: MessageEvent) {
+    messageEvent.message.from?.id?.let {
+        if (it == 114_566_319.toLong()) {
+            messageEvent.bot.replyTo(messageEvent, "Психолог помогает? Где уверенность в себе/доверие к людям/тянка?")
+            return
+        }
+    }
+}
+
 suspend fun broadcast(messageEvent: MessageEvent) {
     val textToBroadcast = messageEvent.message.text?.removePrefix("/broadcast")?.trim() ?: return
     messageEvent.bot.sendMessage(
