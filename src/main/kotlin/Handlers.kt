@@ -109,6 +109,7 @@ suspend fun markovHandler(messageEvent: MessageEvent) {
 suspend fun allHandler(messageEvent: MessageEvent) {
     markovHandler(messageEvent)
     randomGenerateHandler(messageEvent)
+    askAboutPsychologist(messageEvent)
 }
 
 suspend fun randomGenerateHandler(messageEvent: MessageEvent) {
