@@ -3,6 +3,7 @@ import anime365.getTodayOngoingTranslations
 import events.EventInChat
 import events.handle
 import markov.markovChain
+import rocks.waffle.telekt.dispatcher.Filter
 import rocks.waffle.telekt.network.InputFile
 import rocks.waffle.telekt.types.enums.ParseMode
 import rocks.waffle.telekt.types.events.MessageEvent
@@ -11,6 +12,8 @@ import rocks.waffle.telekt.util.Recipient
 import rocks.waffle.telekt.util.replyTo
 import tournaments.*
 import java.security.SecureRandom
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 
@@ -233,3 +236,11 @@ suspend fun broadcast(messageEvent: MessageEvent) {
 }
 
 fun getWednesdayFileId() = "AgADAgADqaoxG-GRwEvOUeREMdsyGK9QXw8ABKj2DhsNSAXkH6cFAAEC"
+
+class OldMessageFilter(val maxAgeInMinutes:Long) : Filter<MessageEvent>() {
+    override suspend fun test(value: MessageEvent): Boolean {
+        val date = Instant.ofEpochMilli(value.message.date.toLong() * 1000)
+
+        return date.isBefore(Instant.now().minus(maxAgeInMinutes, ChronoUnit.MINUTES))
+    }
+}

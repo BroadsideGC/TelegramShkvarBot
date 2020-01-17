@@ -25,6 +25,11 @@ object DBSettingsSpec : ConfigSpec("db") {
     val password by required<String>()
 }
 
+object MessageFilterSpec : ConfigSpec("filter") {
+    val enable by optional(true)
+    val maxAgeInMinutes by optional(10L)
+}
+
 val settings = Config {
     addSpec(SettingsSpec)
     addSpec(DBSettingsSpec)
