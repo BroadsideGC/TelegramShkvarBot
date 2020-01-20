@@ -30,6 +30,9 @@ suspend fun main() {
 
     Database.Companion.connect(hikariDataSource)
 
+    if (settings[MessageFilterSpec.enable]) {
+        dp.messageHandler(OldMessageFilter(settings[MessageFilterSpec.maxAgeInMinutes]), block = {})
+    }
     dp.messageHandler(CommandFilter("roll"), block = ::rollHandler)
     dp.messageHandler(CommandFilter("doubles"), block = ::doublesHandler)
     dp.messageHandler(CommandFilter("wednesday"), block = ::wednesdayHandler)
